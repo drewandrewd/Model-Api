@@ -21,8 +21,8 @@ import java.util.Date;
     @NonNull private String creator;
     @NonNull private String updater;
 
-    public void update(String name, String comment) {
-        this.name = name;
-        this.comment = comment;
-    }
+//    public void update(String name, String comment) {
+//        this.name = name;
+//        this.comment = comment;
+//    }
 }
