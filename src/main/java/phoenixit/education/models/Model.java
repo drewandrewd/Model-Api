@@ -8,18 +8,19 @@ import org.springframework.data.mongodb.core.mapping.Document;
 import java.util.Date;
 
 @Document(collection = "models")
-@Data public class Model {
+@Data
+public class Model {
 
     @Id
-    @NonNull private String id;
+    private String id;
 
-    @NonNull private String name;
-    @NonNull private String comment;
-    @NonNull private Long nodeId;
-    @NonNull private Date createAt;
-    @NonNull private Date updateAt;
-    @NonNull private String creator;
-    @NonNull private String updater;
+    private String name;
+    private String comment;
+    private Long nodeId;
+    private Date createAt;
+    private Date updateAt;
+    private String creator;
+    private String updater;
 
 //    public void update(String name, String comment) {
 //        this.name = name;

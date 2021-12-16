@@ -19,5 +19,5 @@ public interface ModelService {
 
     List<Model> findByName(String name) throws ModelNotFoundException;
 
-    ModelResponse create(ModelRequest model);
+    ModelResponse create(ModelRequest modelRequest);
 }

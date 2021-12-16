@@ -13,7 +13,10 @@ import java.util.Date;
 public class Converter {
 
     public Model requestToModel(ModelRequest modelRequest) {
-        return new Model(ModelList.getModelsArray().size() + "", modelRequest.getName(), modelRequest.getComment(), (long) ModelList.getModelsArray().size(), new Date(new Date().getTime()), new Date(new Date().getTime()), "admin", "admin");
+        Model model = new Model();
+        model.setName(modelRequest.getName());
+        model.setComment(modelRequest.getComment());
+        return model;
     }
 
     public ModelResponse modelToResponse(Model model) {

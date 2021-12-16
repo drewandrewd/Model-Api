@@ -9,6 +9,7 @@ import phoenixit.education.models.ModelRequest;
 import phoenixit.education.models.ModelResponse;
 import phoenixit.education.repositories.ModelRepository;
 
+import java.util.Date;
 import java.util.List;
 
 @Service
@@ -35,8 +36,12 @@ public class ModelServiceImpl implements ModelService {
     }
 
     @Override
-    public ModelResponse create(ModelRequest model) {
-        return null;
+    public ModelResponse create(ModelRequest modelRequest) {
+        Model model = converter.requestToModel(modelRequest);
+        model.setCreateAt(new Date());
+        model.setCreator("admin");
+        model.setNodeId(1L);//todo get from Neo4J component
+        return converter.modelToResponse(modelRepository.save(model));
     }
 
     @Autowired
