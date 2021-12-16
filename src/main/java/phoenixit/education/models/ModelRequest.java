@@ -8,6 +8,8 @@ import lombok.Setter;
 @Data
 public class ModelRequest {
 
+    private String id;
     private String name;
     private String comment;
+    private String type;
 }

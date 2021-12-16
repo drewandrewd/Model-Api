@@ -16,10 +16,18 @@ public class Converter {
         Model model = new Model();
         model.setName(modelRequest.getName());
         model.setComment(modelRequest.getComment());
+        model.setType(modelRequest.getType());
         return model;
     }
 
     public ModelResponse modelToResponse(Model model) {
-        return new ModelResponse(model.getId(), model.getName(), model.getComment(), model.getNodeId(), model.getCreateAt(), model.getUpdateAt(), model.getCreator(), model.getUpdater());
+        ModelResponse responce = new ModelResponse();
+        responce.setId(model.getId());
+        responce.setName(model.getName());
+        responce.setComment(model.getComment());
+        responce.setType(model.getType().name());
+        return  responce;
     }
+
+
 }

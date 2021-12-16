@@ -20,7 +20,7 @@ class EducationModelApiApplicationTests {
     @Test
     void createTest() {
         ModelRequest modelRequest = new ModelRequest();
-        modelRequest.setName("name");
+        modelRequest.setName("Andrew2");
         modelRequest.setComment("comment");
         log.info("Response: " + modelService.create(modelRequest));
     }

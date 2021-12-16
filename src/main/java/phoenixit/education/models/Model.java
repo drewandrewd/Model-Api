@@ -21,6 +21,7 @@ public class Model {
     private Date updateAt;
     private String creator;
     private String updater;
+    private ModelType type;
 
 //    public void update(String name, String comment) {
 //        this.name = name;
