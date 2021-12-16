@@ -1,21 +1,18 @@
 package phoenixit.education.models;
 
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.Setter;
+import lombok.*;
 
 import java.util.Date;
 
-@AllArgsConstructor
+@Data
 public class ModelResponse {
 
-    @Getter @Setter private String id;
-
-    @Getter @Setter private String name;
-    @Getter @Setter private String comment;
-    @Getter @Setter private Long nodeId;
-    @Getter @Setter private Date createAt;
-    @Getter @Setter private Date updateAt;
-    @Getter @Setter private String creator;
-    @Getter @Setter private String updater;
+    @NonNull private String id;
+    @NonNull private String name;
+    @NonNull private String comment;
+    @NonNull private Long nodeId;
+    @NonNull private Date createAt;
+    @NonNull private Date updateAt;
+    @NonNull private String creator;
+    @NonNull private String updater;
 }

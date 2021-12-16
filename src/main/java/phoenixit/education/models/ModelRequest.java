@@ -1,12 +1,13 @@
 package phoenixit.education.models;
 
 import lombok.AllArgsConstructor;
+import lombok.Data;
 import lombok.Getter;
 import lombok.Setter;
 
-@AllArgsConstructor
+@Data
 public class ModelRequest {
 
-@Getter @Setter private String name;
-@Getter @Setter private String comment;
+    private String name;
+    private String comment;
 }

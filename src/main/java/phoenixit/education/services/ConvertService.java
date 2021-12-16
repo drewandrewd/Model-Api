@@ -15,11 +15,11 @@ public class ConvertService {
         }*/
     }
 
-    public void modelToResponse(Model model) {
-        try {
-            ModelResponse modelResponse = new ModelResponse(model.getId(), model.getName(), model.getComment(), model.getNodeId(), model.getCreateAt(), model.getUpdateAt(), model.getCreator(), model.getUpdater());
-        } catch (Exception e) {
-            LoggerService.getLogger().error("Ошибка конвертации!", e);
-        }
-    }
+//    public void modelToResponse(Model model) {
+//        try {
+//            ModelResponse modelResponse = new ModelResponse(model.getId(), model.getName(), model.getComment(), model.getNodeId(), model.getCreateAt(), model.getUpdateAt(), model.getCreator(), model.getUpdater());
+//        } catch (Exception e) {
+//            LoggerService.getLogger().error("Ошибка конвертации!", e);
+//        }
+//    }
 }
