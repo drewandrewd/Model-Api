@@ -13,5 +13,5 @@ public interface ModelService {
 
     ModelResponse create(ModelRequest modelRequest);
 
-    List<ModelResponse> update(ModelRequest modelRequest) throws ModelNotFoundException;
+    ModelResponse update(ModelRequest modelRequest) throws ModelNotFoundException;
 }

@@ -9,4 +9,5 @@ public interface ModelRepository extends MongoRepository<Model, String> {
 
     List<Model> findByName(String name);
 
+
 }

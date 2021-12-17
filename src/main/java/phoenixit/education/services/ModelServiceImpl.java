@@ -13,6 +13,7 @@ import phoenixit.education.repositories.ModelRepository;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class ModelServiceImpl implements ModelService {
@@ -45,31 +46,32 @@ public class ModelServiceImpl implements ModelService {
     }
 
     @Override
-    public List<ModelResponse> update(ModelRequest modelRequest) throws ModelNotFoundException {
-        List<Model> model = new ModelServiceImpl().findByName(modelRequest.getName());
-        List<ModelResponse> modelResponses= new ArrayList<>();
+    public ModelResponse update(ModelRequest modelRequest) throws ModelNotFoundException {
         Model updating = converter.requestToModel(modelRequest);
         String updatingName = updating.getName();
         String updatingComment = updating.getComment();
         ModelType updatingType = updating.getType();
-        for (Model current : model) {
-            if (!current.equals(updating)) {
-                if(!current.getName().equals(updatingName)) {
-                    current.setName(updatingName);
+        Optional<Model> current = modelRepository.findById(updating.getId());
+        Model newModel = current.get();
+        if (!current.isEmpty()) {
+            if (!newModel.equals(updating)) {
+                if(!newModel.getName().equals(updatingName)) {
+                    newModel.setName(updatingName);
                 }
-                if(!current.getName().equals(updatingName)) {
-                    current.setName(updatingName);
+                if(!newModel.getName().equals(updatingName)) {
+                    newModel.setName(updatingName);
                 }
-                if(!current.getComment().equals(updatingComment)) {
-                    current.setComment(updatingComment);
+                if(!newModel.getComment().equals(updatingComment)) {
+                    newModel.setComment(updatingComment);
                 }
-                if(!current.getType().equals(updatingType)) {
-                    current.setType(updatingType);
+                if(!newModel.getType().equals(updatingType)) {
+                    newModel.setType(updatingType);
                 }
-                modelResponses.add(converter.modelToResponse(current));
             }
+        } else {
+            throw new ModelNotFoundException();
         }
-        return modelResponses;
+        return converter.modelToResponse(newModel);
     }
 
     @Autowired
