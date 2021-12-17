@@ -9,15 +9,9 @@ import java.util.List;
 
 public interface ModelService {
 
-    /*void create(Model todo);
-
-    void delete(String id);
-
-    Model findById(String id);
-
-    void update(Model todo);*/
-
     List<Model> findByName(String name) throws ModelNotFoundException;
 
     ModelResponse create(ModelRequest modelRequest);
+
+    List<ModelResponse> update(ModelRequest modelRequest) throws ModelNotFoundException;
 }

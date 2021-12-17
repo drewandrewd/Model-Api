@@ -7,8 +7,10 @@ import phoenixit.education.exceptions.ModelNotFoundException;
 import phoenixit.education.models.Model;
 import phoenixit.education.models.ModelRequest;
 import phoenixit.education.models.ModelResponse;
+import phoenixit.education.models.ModelType;
 import phoenixit.education.repositories.ModelRepository;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -21,11 +23,9 @@ public class ModelServiceImpl implements ModelService {
 //    private ApplicationContext ctx = new AnnotationConfigApplicationContext(AppConfig.class);
 //    private MongoOperations mongoOperation = (MongoOperations) ctx.getBean("mongoTemplate");
 
-
-
     @Override
     public List<Model> findByName(String name) throws ModelNotFoundException {
-        List<Model> model = modelRepository.findByName("");
+        List<Model> model = modelRepository.findByName(name);
         if (!model.isEmpty()) {
             //todo action
         } else {
@@ -44,6 +44,34 @@ public class ModelServiceImpl implements ModelService {
         return converter.modelToResponse(modelRepository.save(model));
     }
 
+    @Override
+    public List<ModelResponse> update(ModelRequest modelRequest) throws ModelNotFoundException {
+        List<Model> model = new ModelServiceImpl().findByName(modelRequest.getName());
+        List<ModelResponse> modelResponses= new ArrayList<>();
+        Model updating = converter.requestToModel(modelRequest);
+        String updatingName = updating.getName();
+        String updatingComment = updating.getComment();
+        ModelType updatingType = updating.getType();
+        for (Model current : model) {
+            if (!current.equals(updating)) {
+                if(!current.getName().equals(updatingName)) {
+                    current.setName(updatingName);
+                }
+                if(!current.getName().equals(updatingName)) {
+                    current.setName(updatingName);
+                }
+                if(!current.getComment().equals(updatingComment)) {
+                    current.setComment(updatingComment);
+                }
+                if(!current.getType().equals(updatingType)) {
+                    current.setType(updatingType);
+                }
+                modelResponses.add(converter.modelToResponse(current));
+            }
+        }
+        return modelResponses;
+    }
+
     @Autowired
     public void setModelRepository(ModelRepository modelRepository) {
         this.modelRepository = modelRepository;
@@ -53,26 +81,4 @@ public class ModelServiceImpl implements ModelService {
     public void setConverter(Converter converter) {
         this.converter = converter;
     }
-
-    /*@Override
-    public void create(Model model) {
-        models.save(mongoOperation, model);
-    }
-
-    @Override
-    public void delete(String id) {
-        models.delete(mongoOperation, id);
-    }
-
-    @Override
-    public Model findById(String id) {
-        return models.findOne(mongoOperation, id);
-    }
-
-    @Override
-    public void update(Model model) {
-        Model updated = findById(model.getId());
-        updated.update(model.getName(), model.getComment());
-        models.save(mongoOperation, updated);
-    }*/
 }

@@ -5,7 +5,7 @@ import phoenixit.education.models.Model;
 
 import java.util.List;
 
-public interface ModelRepository extends MongoRepository<Model,String> {
+public interface ModelRepository extends MongoRepository<Model, String> {
 
     List<Model> findByName(String name);
 
