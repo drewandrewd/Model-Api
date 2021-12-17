@@ -24,6 +24,11 @@ public class Converter {
         responce.setName(model.getName());
         responce.setComment(model.getComment());
         responce.setType(model.getType().name());
+        responce.setNodeId(model.getNodeId());
+        responce.setCreateAt(model.getCreateAt());
+        responce.setUpdateAt(model.getUpdateAt());
+        responce.setCreator(model.getCreator());
+        responce.setUpdater(model.getUpdater());
         return  responce;
     }
 }
