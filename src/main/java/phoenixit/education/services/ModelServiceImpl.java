@@ -19,7 +19,6 @@ import java.util.Optional;
 
 @Slf4j
 @Service
-@AutoJsonRpcServiceImpl
 public class ModelServiceImpl implements ModelService {
 
     private ModelRepository modelRepository;

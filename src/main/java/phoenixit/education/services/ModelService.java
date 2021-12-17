@@ -8,7 +8,6 @@ import phoenixit.education.models.ModelResponse;
 
 import java.util.List;
 
-@JsonRpcService("/api")
 public interface ModelService {
 
     List<Model> findByName(String name) throws ModelNotFoundException;
