@@ -52,8 +52,8 @@ public class ModelServiceImpl implements ModelService {
         String updatingComment = updating.getComment();
         ModelType updatingType = updating.getType();
         Optional<Model> current = modelRepository.findById(updating.getId());
-        Model newModel = current.get();
-        if (!current.isEmpty()) {
+        if (current.isPresent()) {
+            Model newModel = current.get();
             if (!newModel.equals(updating)) {
                 if(!newModel.getName().equals(updatingName)) {
                     newModel.setName(updatingName);
@@ -68,10 +68,10 @@ public class ModelServiceImpl implements ModelService {
                     newModel.setType(updatingType);
                 }
             }
+            return converter.modelToResponse(newModel);
         } else {
             throw new ModelNotFoundException();
         }
-        return converter.modelToResponse(newModel);
     }
 
     @Autowired
