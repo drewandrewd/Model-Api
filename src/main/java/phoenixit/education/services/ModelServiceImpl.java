@@ -1,5 +1,7 @@
 package phoenixit.education.services;
 
+import com.googlecode.jsonrpc4j.spring.AutoJsonRpcServiceImpl;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import phoenixit.education.components.Converter;
@@ -15,14 +17,13 @@ import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 
+@Slf4j
 @Service
+@AutoJsonRpcServiceImpl
 public class ModelServiceImpl implements ModelService {
 
     private ModelRepository modelRepository;
     private Converter converter;
-//    private MongoRepository<Model, String> models;
-//    private ApplicationContext ctx = new AnnotationConfigApplicationContext(AppConfig.class);
-//    private MongoOperations mongoOperation = (MongoOperations) ctx.getBean("mongoTemplate");
 
     @Override
     public List<Model> findByName(String name) throws ModelNotFoundException {
@@ -48,16 +49,15 @@ public class ModelServiceImpl implements ModelService {
     @Override
     public ModelResponse update(ModelRequest modelRequest) throws ModelNotFoundException {
         Model updating = converter.requestToModel(modelRequest);
+        log.info("updating: " + updating);
         String updatingName = updating.getName();
         String updatingComment = updating.getComment();
         ModelType updatingType = updating.getType();
         Optional<Model> current = modelRepository.findById(updating.getId());
+        log.info("current: " + current);
         if (current.isPresent()) {
             Model newModel = current.get();
             if (!newModel.equals(updating)) {
-                if(!newModel.getName().equals(updatingName)) {
-                    newModel.setName(updatingName);
-                }
                 if(!newModel.getName().equals(updatingName)) {
                     newModel.setName(updatingName);
                 }
@@ -67,8 +67,22 @@ public class ModelServiceImpl implements ModelService {
                 if(!newModel.getType().equals(updatingType)) {
                     newModel.setType(updatingType);
                 }
+                newModel.setUpdateAt(new Date());
+                newModel.setUpdater("admin");
             }
-            return converter.modelToResponse(newModel);
+            return converter.modelToResponse(modelRepository.save(newModel));
+        } else {
+            throw new ModelNotFoundException();
+        }
+    }
+
+    @Override
+    public void delete(ModelRequest modelRequest) throws ModelNotFoundException {
+        Model model = converter.requestToModel(modelRequest);
+        Optional<Model> current = modelRepository.findById(model.getId());
+        if (current.isPresent()) {
+            Model newModel = current.get();
+            modelRepository.delete(newModel);
         } else {
             throw new ModelNotFoundException();
         }

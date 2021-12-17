@@ -7,8 +7,8 @@ import org.springframework.data.mongodb.core.mapping.Document;
 
 import java.util.Date;
 
-@Document(collection = "models")
 @Data
+@Document(collection = "models")
 public class Model {
 
     @Id
