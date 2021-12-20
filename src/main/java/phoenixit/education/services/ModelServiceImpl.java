@@ -1,6 +1,5 @@
 package phoenixit.education.services;
 
-import com.googlecode.jsonrpc4j.spring.AutoJsonRpcServiceImpl;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -12,7 +11,6 @@ import phoenixit.education.models.ModelResponse;
 import phoenixit.education.models.ModelType;
 import phoenixit.education.repositories.ModelRepository;
 
-import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.Optional;
@@ -76,7 +74,7 @@ public class ModelServiceImpl implements ModelService {
     }
 
     @Override
-    public void delete(ModelRequest modelRequest) throws ModelNotFoundException {
+    public ModelRequest delete(ModelRequest modelRequest) throws ModelNotFoundException {
         Model model = converter.requestToModel(modelRequest);
         Optional<Model> current = modelRepository.findById(model.getId());
         if (current.isPresent()) {
@@ -85,6 +83,7 @@ public class ModelServiceImpl implements ModelService {
         } else {
             throw new ModelNotFoundException();
         }
+        return modelRequest;
     }
 
     @Autowired

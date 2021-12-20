@@ -1,6 +1,5 @@
 package phoenixit.education.services;
 
-import com.googlecode.jsonrpc4j.JsonRpcService;
 import phoenixit.education.exceptions.ModelNotFoundException;
 import phoenixit.education.models.Model;
 import phoenixit.education.models.ModelRequest;
@@ -16,5 +15,5 @@ public interface ModelService {
 
     ModelResponse update(ModelRequest modelRequest) throws ModelNotFoundException;
 
-    void delete(ModelRequest modelRequest) throws ModelNotFoundException;
+    ModelRequest delete(ModelRequest modelRequest) throws ModelNotFoundException;
 }

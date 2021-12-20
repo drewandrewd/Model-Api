@@ -14,7 +14,8 @@ import java.util.Map;
 @Configuration
 public class AppConfig {
 
-    private static final String endpoint = "http://localhost:27017/";
+    private static final String endpoint = "http://localhost:8080";
+
     @Bean
     public JsonRpcHttpClient jsonRpcHttpClient() {
         URL url = null;
