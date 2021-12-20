@@ -8,8 +8,8 @@ import phoenixit.education.models.ModelRequest;
 import phoenixit.education.models.ModelResponse;
 import phoenixit.education.services.ModelService;
 
-@AutoJsonRpcServiceImpl
 @Service
+@AutoJsonRpcServiceImpl
 public class APIImpl implements API {
 
  private ModelService modelService;
