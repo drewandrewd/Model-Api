@@ -3,7 +3,7 @@ package phoenixit.education.config;
 import com.googlecode.jsonrpc4j.JsonRpcHttpClient;
 import com.googlecode.jsonrpc4j.ProxyUtil;
 import com.googlecode.jsonrpc4j.spring.AutoJsonRpcServiceImplExporter;
-import jsonRPC.API;
+import phoenixit.education.jsonRPC.API;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 

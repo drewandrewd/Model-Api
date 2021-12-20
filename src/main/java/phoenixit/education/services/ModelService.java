@@ -15,5 +15,5 @@ public interface ModelService {
 
     ModelResponse update(ModelRequest modelRequest) throws ModelNotFoundException;
 
-    ModelRequest delete(ModelRequest modelRequest) throws ModelNotFoundException;
+    ModelResponse delete(String id) throws ModelNotFoundException;
 }

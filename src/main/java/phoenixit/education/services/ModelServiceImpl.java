@@ -74,16 +74,14 @@ public class ModelServiceImpl implements ModelService {
     }
 
     @Override
-    public ModelRequest delete(ModelRequest modelRequest) throws ModelNotFoundException {
-        Model model = converter.requestToModel(modelRequest);
-        Optional<Model> current = modelRepository.findById(model.getId());
-        if (current.isPresent()) {
-            Model newModel = current.get();
-            modelRepository.delete(newModel);
-        } else {
+    public ModelResponse delete(String id) throws ModelNotFoundException {
+        Optional<Model> current = modelRepository.findById(id);
+        if (!current.isPresent()) {
             throw new ModelNotFoundException();
         }
-        return modelRequest;
+        Model newModel = current.get();
+        modelRepository.delete(newModel);
+        return converter.modelToResponse(newModel);
     }
 
     @Autowired
