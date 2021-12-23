@@ -1,0 +1,61 @@
+---
+variables:
+  APP_NAME: "APP_NAME=education"
+  PRJ_RELEASE: "BUILD_TAG=0.0"
+  MAP_PORT: "MAP_PORT=8837:9090"
+  PRJ_NAME: "PRJ_NAME=$CI_PROJECT_NAME"
+  SERVER_IP: "SERVER_IP=$CI_SERVER_HOST"
+  DNS_SERVER: "DNS_SERVER=10.128.17.8"
+  BOOK: "ansible-playbook"
+
+stages:
+  - info
+  - copy
+  - prep
+  - build
+  - deploy
+  - clear
+
+Lint files:
+  stage: info
+  script:
+    - yamllint .gitlab-ci.yml
+  only:
+    - tags
+
+Ansible lint:
+  stage: info
+  script:
+    - ansible --version
+    - ansible-lint CI/git_copy.yaml
+  only:
+    - tags
+
+Copy files:
+  stage: copy
+  script:
+    - $BOOK CI/git_copy.yaml -e "$APP_NAME $SERVER_IP $PRJ_NAME $PRJ_RELEASE"
+  only:
+    - tags
+
+Build app:
+  stage: build
+  script:
+    - $BOOK CI/mvn-build-app.yaml -e $PRJ_NAME
+  only:
+    - tags
+
+Deploy App:
+  stage: deploy
+  script:
+    - $BOOK CI/build-image.yaml -e $PRJ_NAME
+    - $BOOK CI/create_container.yaml -e "$DNS_SERVER $PRJ_NAME $MAP_PORT"
+  only:
+    - tags
+
+Delete files:
+  stage: clear
+  script:
+    - $BOOK CI/rm-workdir.yaml -e $PRJ_NAME
+  only:
+    - tags

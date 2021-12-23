@@ -1,0 +1,16 @@
+- name: Remove docker container {{ PRJ_NAME }}
+  hosts:
+    - dockers
+  tasks:
+  - name: docker stop {{ PRJ_NAME }} container
+    command: docker stop {{ PRJ_NAME }}
+    args:
+      warn: no
+  - name: docker remove {{ PRJ_NAME }} container
+    command: docker rm {{ PRJ_NAME }}
+    args:
+      warn: no
+  - name: docker remove {{ PRJ_NAME }} images
+    command: docker rmi {{ PRJ_NAME }}:latest
+    args:
+      warn: no

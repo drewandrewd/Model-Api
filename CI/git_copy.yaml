@@ -1,0 +1,10 @@
+- name: Copy project {{ PRJ_NAME }} to build server
+  hosts:
+    - dockers
+  tasks:
+    - name: Copy project {{ PRJ_NAME }} to docker server
+      git:
+        repo: http://{{ SERVER_IP }}/{{ APP_NAME }}/{{ PRJ_NAME }}.git
+        dest: /home/gitlab-runner/works/{{ PRJ_NAME }}
+        force: yes
+        version: release-{{ BUILD_TAG }}

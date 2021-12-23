@@ -1,0 +1,9 @@
+- name: Build {{ PRJ_NAME }} project
+  hosts:
+    - dockers
+  tasks:
+  - name: Build {{ PRJ_NAME }} project
+    command: docker build -t {{ PRJ_NAME }} --network=i-dev .
+    args:
+      chdir: /home/gitlab-runner/works/{{ PRJ_NAME }}
+      warn: no
