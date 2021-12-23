@@ -1,0 +1,8 @@
+- name: Remove work directory on build server
+  hosts:
+    - dockers
+  tasks:
+    - name: remove directory /home/gitlab-runner/works/{{ PRJ_NAME }}
+      command: rm -R -f /home/gitlab-runner/works/{{ PRJ_NAME }}
+      args:
+        warn: no

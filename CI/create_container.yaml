@@ -1,0 +1,9 @@
+- name: Create {{ PRJ_NAME }} container
+  hosts:
+    - dockers
+  tasks:
+  - name: Create {{ PRJ_NAME }} container
+    command: docker run -d --dns={{ DNS_SERVER }} --name {{ PRJ_NAME }} --hostname {{ PRJ_NAME }} --net i-dev -p {{ MAP_PORT }} {{ PRJ_NAME }}:latest
+    args:
+      chdir: /home/gitlab-runner/works/{{ PRJ_NAME }}
+      warn: no

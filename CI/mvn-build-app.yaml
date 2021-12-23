@@ -1,0 +1,9 @@
+- name: Build maven project {{ PRJ_NAME }}
+  hosts:
+    - dockers
+  tasks:
+  - name: Build maven project {{ PRJ_NAME }}
+    command: mvn clean compile package
+    args:
+      chdir: /home/gitlab-runner/works/{{ PRJ_NAME }}
+      warn: no
