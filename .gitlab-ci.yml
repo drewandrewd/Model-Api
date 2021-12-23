@@ -1,7 +1,7 @@
 ---
 variables:
   APP_NAME: "APP_NAME=education"
-  PRJ_RELEASE: "BUILD_TAG=0.0"
+  PRJ_RELEASE: "BUILD_TAG=0.01"
   MAP_PORT: "MAP_PORT=8837:9090"
   PRJ_NAME: "PRJ_NAME=$CI_PROJECT_NAME"
   SERVER_IP: "SERVER_IP=$CI_SERVER_HOST"
@@ -35,6 +35,13 @@ Copy files:
   stage: copy
   script:
     - $BOOK CI/git_copy.yaml -e "$APP_NAME $SERVER_IP $PRJ_NAME $PRJ_RELEASE"
+  only:
+    - tags
+
+Clear docker:
+  stage: prep
+  script:
+    - $BOOK CI/clear_cmd.yaml -e $PRJ_NAME
   only:
     - tags
 
