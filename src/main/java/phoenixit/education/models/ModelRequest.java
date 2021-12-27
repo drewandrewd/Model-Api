@@ -12,4 +12,5 @@ public class ModelRequest {
     private String name;
     private String comment;
     private String type;
+    private Long classNodeId;
 }
