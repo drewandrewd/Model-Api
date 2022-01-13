@@ -5,6 +5,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 import phoenixit.education.models.Model;
+import phoenixit.education.models.ModelLinkMessage;
 
 @Service
 public class ModelLinkServiceImpl implements ModelLinkService {
@@ -13,18 +14,18 @@ public class ModelLinkServiceImpl implements ModelLinkService {
 
     @Override
     public Long create(String name, Long classNodeId) throws Throwable {
-        Model model = jsonRpcHttpClient.invoke("create", new Object[]{name, classNodeId}, Model.class);
-        return model.getNodeId();
+        ModelLinkMessage model = jsonRpcHttpClient.invoke("create", new Object[]{name, classNodeId}, ModelLinkMessage.class);
+        return model.getModelNodeId();
     }
 
     @Override
     public void update(String name, Long classNodeId) throws Throwable {
-        jsonRpcHttpClient.invoke("update", new Object[]{name, classNodeId}, Model.class);
+        jsonRpcHttpClient.invoke("update", new Object[]{name, classNodeId}, ModelLinkMessage.class);
     }
 
     @Override
     public void delete(Long modelNodeId) throws Throwable {
-        jsonRpcHttpClient.invoke("delete", new Object[]{modelNodeId}, Model.class);
+        jsonRpcHttpClient.invoke("delete", new Object[]{modelNodeId}, ModelLinkMessage.class);
     }
 
     @Autowired
