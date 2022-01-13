@@ -11,7 +11,8 @@ import java.net.URL;
 @Configuration
 public class AppConfig {
 
-    private String url = "http://localhost:8080";
+    //private String url = "http://localhost:8080";
+    private String url = "http://10.128.17.8:9090";
 
     @Bean
     public static AutoJsonRpcServiceImplExporter autoJsonRpcServiceImplExporter() {
