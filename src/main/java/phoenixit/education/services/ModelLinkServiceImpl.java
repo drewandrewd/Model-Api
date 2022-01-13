@@ -4,6 +4,7 @@ import com.googlecode.jsonrpc4j.JsonRpcHttpClient;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
+import phoenixit.education.exceptions.JsonRpcException;
 import phoenixit.education.models.Model;
 import phoenixit.education.models.ModelLinkMessage;
 
@@ -14,18 +15,37 @@ public class ModelLinkServiceImpl implements ModelLinkService {
 
     @Override
     public Long create(String name, Long classNodeId) throws Throwable {
-        ModelLinkMessage model = jsonRpcHttpClient.invoke("create", new Object[]{name, classNodeId}, ModelLinkMessage.class);
-        return model.getModelNodeId();
+        ModelLinkMessage model = new ModelLinkMessage();
+        model.setModelNodeTitle(name);
+        model.setClassNodeId(classNodeId);
+        try {
+            Long modelNodeId = jsonRpcHttpClient.invoke("create", new Object[]{model}, Long.class);
+            return modelNodeId;
+        } catch (Exception e) {
+            throw new JsonRpcException();
+        }
     }
 
     @Override
-    public void update(String name, Long classNodeId) throws Throwable {
-        jsonRpcHttpClient.invoke("update", new Object[]{name, classNodeId}, ModelLinkMessage.class);
+    public void update(String name, Long modelNodeId, Long classNodeId) throws Throwable {
+        ModelLinkMessage model = new ModelLinkMessage();
+        model.setModelNodeTitle(name);
+        model.setModelNodeId(modelNodeId);
+        model.setClassNodeId(classNodeId);
+        try {
+            jsonRpcHttpClient.invoke("update", new Object[]{model}, ModelLinkMessage.class);
+        } catch (Exception e) {
+            throw new JsonRpcException();
+        }
     }
 
     @Override
     public void delete(Long modelNodeId) throws Throwable {
-        jsonRpcHttpClient.invoke("delete", new Object[]{modelNodeId}, ModelLinkMessage.class);
+        try {
+            jsonRpcHttpClient.invoke("modelDelete", new Object[]{modelNodeId}, Long.class);
+        } catch (Exception e) {
+            throw new JsonRpcException();
+        }
     }
 
     @Autowired
