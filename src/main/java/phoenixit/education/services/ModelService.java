@@ -11,9 +11,9 @@ public interface ModelService {
 
     List<Model> findByName(String name) throws ModelNotFoundException;
 
-    ModelResponse create(ModelRequest modelRequest);
+    ModelResponse create(ModelRequest modelRequest) throws Throwable;
 
-    ModelResponse update(ModelRequest modelRequest) throws ModelNotFoundException;
+    ModelResponse update(ModelRequest modelRequest) throws Throwable;
 
-    ModelResponse delete(String id) throws ModelNotFoundException;
+    ModelResponse delete(String id) throws Throwable;
 }

@@ -9,7 +9,7 @@ import phoenixit.education.models.ModelResponse;
 @JsonRpcService("/api/v1/model.json")
 public interface API {
 
-    ModelResponse create(@JsonRpcParam(value = "modelRequest") ModelRequest modelRequest);
+    ModelResponse create(@JsonRpcParam(value = "modelRequest") ModelRequest modelRequest) throws Throwable;
     ModelResponse update(@JsonRpcParam(value = "modelRequest") ModelRequest modelRequest) throws ModelNotFoundException;
-    ModelResponse delete(@JsonRpcParam(value = "id") String id) throws ModelNotFoundException;
+    ModelResponse delete(@JsonRpcParam(value = "id") String id) throws Throwable;
 }
