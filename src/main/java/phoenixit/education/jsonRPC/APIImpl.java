@@ -20,7 +20,7 @@ public class APIImpl implements API {
     }
 
     @Override
-    public ModelResponse update(ModelRequest modelRequest) throws ModelNotFoundException {
+    public ModelResponse update(ModelRequest modelRequest) throws Throwable {
         return modelService.update(modelRequest);
     }
 

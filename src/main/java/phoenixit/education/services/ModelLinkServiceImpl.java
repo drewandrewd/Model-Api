@@ -19,7 +19,7 @@ public class ModelLinkServiceImpl implements ModelLinkService {
 
     @Override
     public void update(String name, Long classNodeId) throws Throwable {
-        jsonRpcHttpClient.invoke("delete", new Object[]{name, classNodeId}, Model.class);
+        jsonRpcHttpClient.invoke("update", new Object[]{name, classNodeId}, Model.class);
     }
 
     @Override
