@@ -15,6 +15,7 @@ public class Converter {
         model.setName(modelRequest.getName());
         model.setComment(modelRequest.getComment());
         model.setType(ModelType.convertToEnum(modelRequest.getType()));
+        //model.setNodeId(modelRequest.getClassNodeId());
         return model;
     }
 

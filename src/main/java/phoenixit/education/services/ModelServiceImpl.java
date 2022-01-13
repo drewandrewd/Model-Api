@@ -21,7 +21,7 @@ public class ModelServiceImpl implements ModelService {
 
     private ModelRepository modelRepository;
     private Converter converter;
-    private ModelLinkServiceImpl modelLinkService;
+    private ModelLinkService modelLinkService;
 
     @Override
     public List<Model> findByName(String name) throws ModelNotFoundException {
@@ -40,7 +40,8 @@ public class ModelServiceImpl implements ModelService {
         Model model = converter.requestToModel(modelRequest);
         model.setCreateAt(new Date());
         model.setCreator("admin");
-        model.setNodeId(modelLinkService.create(modelRequest.getName(), modelRequest.getClassNodeId()));//todo get from Neo4J component
+        Long modelNodeId = modelLinkService.create(modelRequest.getName(), modelRequest.getClassNodeId());
+        model.setNodeId(modelNodeId);//todo get from Neo4J component
         return converter.modelToResponse(modelRepository.save(model));
     }
 
@@ -68,7 +69,7 @@ public class ModelServiceImpl implements ModelService {
                 newModel.setUpdateAt(new Date());
                 newModel.setUpdater("admin");
             }
-            modelLinkService.update(newModel.getName(), modelRequest.getClassNodeId());
+            modelLinkService.update(modelRequest.getName(), newModel.getNodeId(), modelRequest.getClassNodeId());
             return converter.modelToResponse(modelRepository.save(newModel));
         } else {
             throw new ModelNotFoundException();
