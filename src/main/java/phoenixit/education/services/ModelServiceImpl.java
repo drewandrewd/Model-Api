@@ -21,6 +21,7 @@ public class ModelServiceImpl implements ModelService {
 
     private ModelRepository modelRepository;
     private Converter converter;
+    private ModelLinkServiceImpl modelLinkService;
 
     @Override
     public List<Model> findByName(String name) throws ModelNotFoundException {
@@ -35,16 +36,16 @@ public class ModelServiceImpl implements ModelService {
     }
 
     @Override
-    public ModelResponse create(ModelRequest modelRequest) {
+    public ModelResponse create(ModelRequest modelRequest) throws Throwable {
         Model model = converter.requestToModel(modelRequest);
         model.setCreateAt(new Date());
         model.setCreator("admin");
-        model.setNodeId(1L);//todo get from Neo4J component
+        model.setNodeId(modelLinkService.create(modelRequest.getName(), modelRequest.getClassNodeId()));//todo get from Neo4J component
         return converter.modelToResponse(modelRepository.save(model));
     }
 
     @Override
-    public ModelResponse update(ModelRequest modelRequest) throws ModelNotFoundException {
+    public ModelResponse update(ModelRequest modelRequest) throws Throwable {
         Model updating = converter.requestToModel(modelRequest);
         log.info("updating: " + updating);
         String updatingName = updating.getName();
@@ -67,6 +68,7 @@ public class ModelServiceImpl implements ModelService {
                 newModel.setUpdateAt(new Date());
                 newModel.setUpdater("admin");
             }
+            modelLinkService.update(newModel.getName(), modelRequest.getClassNodeId());
             return converter.modelToResponse(modelRepository.save(newModel));
         } else {
             throw new ModelNotFoundException();
@@ -74,13 +76,14 @@ public class ModelServiceImpl implements ModelService {
     }
 
     @Override
-    public ModelResponse delete(String id) throws ModelNotFoundException {
+    public ModelResponse delete(String id) throws Throwable {
         Optional<Model> current = modelRepository.findById(id);
         if (!current.isPresent()) {
             throw new ModelNotFoundException();
         }
         Model newModel = current.get();
         modelRepository.delete(newModel);
+        modelLinkService.delete(newModel.getNodeId());
         return converter.modelToResponse(newModel);
     }
 
@@ -92,5 +95,10 @@ public class ModelServiceImpl implements ModelService {
     @Autowired
     public void setConverter(Converter converter) {
         this.converter = converter;
+    }
+
+    @Autowired
+    public void setModelLinkService(ModelLinkServiceImpl modelLinkService) {
+        this.modelLinkService = modelLinkService;
     }
 }

@@ -15,7 +15,7 @@ public class APIImpl implements API {
  private ModelService modelService;
 
     @Override
-    public ModelResponse create(ModelRequest modelRequest) {
+    public ModelResponse create(ModelRequest modelRequest) throws Throwable {
         return modelService.create(modelRequest);
     }
 
@@ -25,7 +25,7 @@ public class APIImpl implements API {
     }
 
     @Override
-    public ModelResponse delete(String id) throws ModelNotFoundException {
+    public ModelResponse delete(String id) throws Throwable {
         return modelService.delete(id);
     }
 
