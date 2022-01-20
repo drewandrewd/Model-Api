@@ -38,6 +38,13 @@ Copy files:
   only:
     - tags
 
+Clear docker:
+  stage: prep
+  script:
+    - $BOOK CI/clear_cmd.yaml -e $PRJ_NAME
+  only:
+    - tags
+
 Build app:
   stage: build
   script:
