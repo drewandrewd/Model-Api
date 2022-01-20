@@ -2,6 +2,10 @@ package phoenixit.education.services;
 
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import phoenixit.education.components.Converter;
 import phoenixit.education.exceptions.ModelNotFoundException;
@@ -86,6 +90,26 @@ public class ModelServiceImpl implements ModelService {
         modelRepository.delete(newModel);
         modelLinkService.delete(newModel.getNodeId());
         return converter.modelToResponse(newModel);
+    }
+
+    @Override
+    public List<Model> fetchAll(String field, Sort.Direction direction)  throws ModelNotFoundException {
+        List<Model> list = modelRepository.findAll(Sort.by(direction, field));
+        return list;
+    }
+
+    @Override
+    public List<Model> fetchAllWithPagination(String field, Sort.Direction direction, int pages, int size) {
+        Pageable sortModels = PageRequest.of(pages, size, Sort.by(direction, field));
+        Page<Model> allPages = modelRepository.findAll(sortModels);
+        List<Model> listOfModels = allPages.getContent();
+        return listOfModels;
+    }
+
+    @Override
+    public Model fetchById(String id) {
+        Model model = modelRepository.findById(id).get();
+        return model;
     }
 
     @Autowired

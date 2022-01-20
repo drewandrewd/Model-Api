@@ -5,23 +5,34 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.core.AutoConfigureCache;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
+import phoenixit.education.exceptions.JsonRpcException;
 import phoenixit.education.exceptions.ModelNotFoundException;
 import phoenixit.education.models.Model;
 import phoenixit.education.models.ModelRequest;
 import phoenixit.education.repositories.ModelRepository;
+import phoenixit.education.services.ModelLinkService;
 import phoenixit.education.services.ModelService;
 
+import java.util.List;
 import java.util.Optional;
+
+import static org.springframework.data.domain.Sort.Direction.DESC;
 
 @Slf4j
 @SpringBootTest
 class EducationModelApiApplicationTests {
-//    private ModelService modelService;
-//    private ModelRepository repository;
-//
-//    @Test
-//    void contextLoads() {
-//    }
+
+    private ModelService modelService;
+    private ModelRepository repository;
+    private ModelLinkService modelLinkService;
+
+    @Test
+    void contextLoads() {
+    }
 //
 //    @Test
 //    void createTest() {
@@ -54,13 +65,50 @@ class EducationModelApiApplicationTests {
 //        //log.info("Delete: " + );
 //    }
 //
-//    @Autowired
-//    public void setModelService(ModelService modelService) {
-//        this.modelService = modelService;
-//    }
-//
-//    @Autowired
-//    public void setRepository(ModelRepository repository) {
-//        this.repository = repository;
-//    }
+    @Test
+    void fetchAllTest() throws ModelNotFoundException {
+        List<Model> list = modelService.fetchAll("name", DESC);
+        for (int i = 0; i < list.size(); i++) {
+            System.out.println(list.get(i).getName());
+        }
+    }
+
+    @Test
+    void fetchAllWithPaginationTest() {
+        List<Model> listOfModels = modelService.fetchAllWithPagination("name", DESC, 1, 5);
+        for (int i = 0; i < listOfModels.size(); i++) {
+            System.out.println(listOfModels.get(i).getName());
+        }
+    }
+
+    @Test void fetchByIdTest() {
+        Model model = modelService.fetchById("61e05b1cf1d16059e3f4368c");
+        System.out.println(model.getName());
+    }
+
+    @Test void fetchByClassNodeIdTest() throws Throwable {
+        boolean isTrue = modelLinkService.fetchByClassNodeId(84354L);
+        System.out.println(isTrue);
+    }
+
+    @Test
+    void fetchModelsByClassNodeIdTest() throws JsonRpcException {
+        List<Long> list = modelLinkService.fetchModelsByClassNodeId(84354L);
+        System.out.println(list);
+    }
+
+    @Autowired
+    public void setModelService(ModelService modelService) {
+        this.modelService = modelService;
+    }
+
+    @Autowired
+    public void setRepository(ModelRepository repository) {
+        this.repository = repository;
+    }
+
+    @Autowired
+    public void setModelLinkService(ModelLinkService modelLinkService) {
+        this.modelLinkService = modelLinkService;
+    }
 }

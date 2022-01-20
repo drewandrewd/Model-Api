@@ -1,11 +1,14 @@
 package phoenixit.education.services;
 
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Sort;
 import phoenixit.education.exceptions.ModelNotFoundException;
 import phoenixit.education.models.Model;
 import phoenixit.education.models.ModelRequest;
 import phoenixit.education.models.ModelResponse;
 
 import java.util.List;
+import java.util.Optional;
 
 public interface ModelService {
 
@@ -16,4 +19,10 @@ public interface ModelService {
     ModelResponse update(ModelRequest modelRequest) throws Throwable;
 
     ModelResponse delete(String id) throws Throwable;
+
+    List<Model> fetchAll(String field, Sort.Direction direction) throws ModelNotFoundException;
+
+    List<Model> fetchAllWithPagination(String field, Sort.Direction direction, int pages, int size);
+
+    Model fetchById(String id);
 }

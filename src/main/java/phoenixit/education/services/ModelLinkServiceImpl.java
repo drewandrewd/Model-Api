@@ -8,6 +8,8 @@ import phoenixit.education.exceptions.JsonRpcException;
 import phoenixit.education.models.Model;
 import phoenixit.education.models.ModelLinkMessage;
 
+import java.util.List;
+
 @Service
 public class ModelLinkServiceImpl implements ModelLinkService {
 
@@ -44,6 +46,26 @@ public class ModelLinkServiceImpl implements ModelLinkService {
         try {
             jsonRpcHttpClient.invoke("modelDelete", new Object[]{modelNodeId}, Long.class);
         } catch (Exception e) {
+            throw new JsonRpcException();
+        }
+    }
+
+    @Override
+    public boolean fetchByClassNodeId(Long classNodeId) throws Throwable {
+            return jsonRpcHttpClient.invoke("fetchByClassNodeId", new Object[]{classNodeId}, Boolean.class);
+    }
+
+    @Override
+    public boolean fetchByModelNodeId(Long modelNodeId) throws Throwable {
+            return jsonRpcHttpClient.invoke("fetchByModelNodeId", new Object[]{modelNodeId}, Boolean.class);
+    }
+
+    @Override
+    public List<Long> fetchModelsByClassNodeId(Long classNodeId) throws JsonRpcException {
+        try {
+            List<Long> list = jsonRpcHttpClient.invoke("fetchModelsByClassNodeId", new Object[]{classNodeId}, List.class);
+            return list;
+        } catch (Throwable e) {
             throw new JsonRpcException();
         }
     }
