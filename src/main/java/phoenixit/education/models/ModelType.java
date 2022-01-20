@@ -24,6 +24,4 @@ public enum ModelType {
         }
         return result;
     }
-
-
 }
