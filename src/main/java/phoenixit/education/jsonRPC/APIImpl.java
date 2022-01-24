@@ -46,17 +46,17 @@ public class APIImpl implements API {
     }
 
     @Override
-    public void fetchById(String id) {
+    public void fetchById(String id) throws ModelNotFoundException {
         modelService.fetchById(id);
     }
 
     @Override
-    public boolean fetchByClassNodeId(Long classNodeId) throws Throwable {
+    public Long fetchByClassNodeId(Long classNodeId) throws Throwable {
         return modelLinkService.fetchByClassNodeId(classNodeId);
     }
 
     @Override
-    public boolean fetchByModelNodeId(Long modelNodeId) throws Throwable {
+    public Long fetchByModelNodeId(Long modelNodeId) throws Throwable {
         return modelLinkService.fetchByModelNodeId(modelNodeId);
     }
 

@@ -20,9 +20,9 @@ public interface ModelService {
 
     ModelResponse delete(String id) throws Throwable;
 
-    List<Model> fetchAll(String field, Sort.Direction direction) throws ModelNotFoundException;
+    List<ModelResponse> fetchAll(String field, Sort.Direction direction) throws ModelNotFoundException;
 
-    List<Model> fetchAllWithPagination(String field, Sort.Direction direction, int pages, int size);
+    Page<ModelResponse> fetchAllWithPagination(String field, Sort.Direction direction, int pages, int size);
 
-    Model fetchById(String id);
+    ModelResponse fetchById(String id) throws ModelNotFoundException;
 }

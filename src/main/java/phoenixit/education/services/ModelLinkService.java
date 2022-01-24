@@ -13,9 +13,9 @@ public interface ModelLinkService {
 
     void delete(Long modelNodeId) throws Throwable;
 
-    boolean fetchByClassNodeId(Long classNodeId) throws Throwable;
+    Long fetchByClassNodeId(Long classNodeId) throws Throwable;
 
-    boolean fetchByModelNodeId(Long modelNodeId) throws Throwable;
+    Long fetchByModelNodeId(Long modelNodeId) throws Throwable;
 
     List<Long> fetchModelsByClassNodeId(Long lassNodeId) throws JsonRpcException;
 }

@@ -18,8 +18,8 @@ public interface API {
     ModelResponse delete(@JsonRpcParam(value = "id") String id) throws Throwable;
     void fetchAll(@JsonRpcParam(value = "field") String field, @JsonRpcParam(value = "direction") Sort.Direction direction) throws ModelNotFoundException;
     void fetchAllWithPagination(@JsonRpcParam(value = "field") String field, @JsonRpcParam(value = "direction") Sort.Direction direction, @JsonRpcParam(value = "pages") int pages, @JsonRpcParam(value = "size") int size) throws ModelNotFoundException;
-    void fetchById(@JsonRpcParam(value = "id") String id);
-    boolean fetchByClassNodeId(@JsonRpcParam(value = "classNodeId") Long classNodeId) throws Throwable;
-    boolean fetchByModelNodeId(@JsonRpcParam(value = "modelNodeId") Long modelNodeId) throws Throwable;
+    void fetchById(@JsonRpcParam(value = "id") String id) throws ModelNotFoundException;
+    Long fetchByClassNodeId(@JsonRpcParam(value = "classNodeId") Long classNodeId) throws Throwable;
+    Long fetchByModelNodeId(@JsonRpcParam(value = "modelNodeId") Long modelNodeId) throws Throwable;
     List<Long> fetchModelsByClassNodeId(@JsonRpcParam(value = "classNodeId") Long classNodeId) throws JsonRpcException;
 }
