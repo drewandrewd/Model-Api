@@ -2,10 +2,7 @@ package phoenixit.education.services;
 
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageRequest;
-import org.springframework.data.domain.Pageable;
-import org.springframework.data.domain.Sort;
+import org.springframework.data.domain.*;
 import org.springframework.stereotype.Service;
 import phoenixit.education.components.Converter;
 import phoenixit.education.exceptions.ModelNotFoundException;
@@ -13,8 +10,10 @@ import phoenixit.education.models.Model;
 import phoenixit.education.models.ModelRequest;
 import phoenixit.education.models.ModelResponse;
 import phoenixit.education.models.ModelType;
+import phoenixit.education.repositories.ModelCustomRepository;
 import phoenixit.education.repositories.ModelRepository;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.Optional;
@@ -26,6 +25,7 @@ public class ModelServiceImpl implements ModelService {
     private ModelRepository modelRepository;
     private Converter converter;
     private ModelLinkService modelLinkService;
+    private ModelCustomRepository modelCustomRepository;
 
     @Override
     public List<Model> findByName(String name) throws ModelNotFoundException {
@@ -93,30 +93,34 @@ public class ModelServiceImpl implements ModelService {
     }
 
     @Override
-    public List<Model> fetchAll(String field, Sort.Direction direction)  throws ModelNotFoundException {
-        //todo call ModelCustomRepository (ModelCustomRepositoryImpl)
-        List<Model> list = modelRepository.findAll(Sort.by(direction, field));
-        //todo convertToResponse
-        return list;
+    public List<ModelResponse> fetchAll(String field, Sort.Direction direction)  throws ModelNotFoundException {
+        List<Model> modelList = modelCustomRepository.fetchAll(field, direction);
+        List<ModelResponse> responseList = new ArrayList<>();
+        for (Model model : modelList) {
+            responseList.add(converter.modelToResponse(model));
+        }
+        return responseList;
     }
 
-    //todo return Page<ModelResponse>
     @Override
-    public List<Model> fetchAllWithPagination(String field, Sort.Direction direction, int pages, int size) {
-        Pageable sortModels = PageRequest.of(pages, size, Sort.by(direction, field));
-        Page<Model> allPages = modelRepository.findAll(sortModels);
-        //todo streams with Page
-        List<Model> listOfModels = allPages.getContent();
-        //todo convertToResponse
-        return listOfModels;
+    public Page<ModelResponse> fetchAllWithPagination(String field, Sort.Direction direction, int pages, int size) {
+        List<Model> modelList = modelCustomRepository.fetchAllWithPagination(field, direction, pages, size);
+        List<ModelResponse> responseList = new ArrayList<>();
+        for (Model model : modelList) {
+            responseList.add(converter.modelToResponse(model));
+        }
+        Page<ModelResponse> page = new PageImpl<>(responseList);
+        return page;
     }
 
-    //todo return ModelResponse
     @Override
-    public Model fetchById(String id) {
-        //todo isPreset check
-        Model model = modelRepository.findById(id).get();
-        return model;
+    public ModelResponse fetchById(String id) throws ModelNotFoundException {
+        Optional<Model> model = modelRepository.findById(id);
+        if (model.isPresent()) {
+            return converter.modelToResponse(model.get());
+        } else {
+            throw new ModelNotFoundException();
+        }
     }
 
     @Autowired
@@ -132,5 +136,10 @@ public class ModelServiceImpl implements ModelService {
     @Autowired
     public void setModelLinkService(ModelLinkServiceImpl modelLinkService) {
         this.modelLinkService = modelLinkService;
+    }
+
+    @Autowired
+    public void setModelCustomRepository(ModelCustomRepository modelCustomRepository) {
+        this.modelCustomRepository = modelCustomRepository;
     }
 }

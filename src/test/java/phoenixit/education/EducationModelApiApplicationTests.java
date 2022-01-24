@@ -13,6 +13,7 @@ import phoenixit.education.exceptions.JsonRpcException;
 import phoenixit.education.exceptions.ModelNotFoundException;
 import phoenixit.education.models.Model;
 import phoenixit.education.models.ModelRequest;
+import phoenixit.education.models.ModelResponse;
 import phoenixit.education.repositories.ModelRepository;
 import phoenixit.education.services.ModelLinkService;
 import phoenixit.education.services.ModelService;
@@ -67,7 +68,7 @@ class EducationModelApiApplicationTests {
 //
     @Test
     void fetchAllTest() throws ModelNotFoundException {
-        List<Model> list = modelService.fetchAll("name", DESC);
+        List<ModelResponse> list = modelService.fetchAll("name", DESC);
         for (int i = 0; i < list.size(); i++) {
             System.out.println(list.get(i).getName());
         }
@@ -75,21 +76,19 @@ class EducationModelApiApplicationTests {
 
     @Test
     void fetchAllWithPaginationTest() {
-        List<Model> listOfModels = modelService.fetchAllWithPagination("name", DESC, 1, 5);
-        for (int i = 0; i < listOfModels.size(); i++) {
-            System.out.println(listOfModels.get(i).getName());
-        }
+        Page<ModelResponse> listOfModels = modelService.fetchAllWithPagination("name", DESC, 1, 5);
+        System.out.println(listOfModels);
     }
 
-    @Test void fetchByIdTest() {
-        Model model = modelService.fetchById("61e05b1cf1d16059e3f4368c");
-        System.out.println(model.getName());
-    }
+//    @Test void fetchByIdTest() {
+//        Model model = modelService.fetchById("61e05b1cf1d16059e3f4368c");
+//        System.out.println(model.getName());
+//    }
 
-    @Test void fetchByClassNodeIdTest() throws Throwable {
-        boolean isTrue = modelLinkService.fetchByClassNodeId(84354L);
-        System.out.println(isTrue);
-    }
+//    @Test void fetchByClassNodeIdTest() throws Throwable {
+//        boolean isTrue = modelLinkService.fetchByClassNodeId(84354L);
+//        System.out.println(isTrue);
+//    }
 
     @Test
     void fetchModelsByClassNodeIdTest() throws JsonRpcException {

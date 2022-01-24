@@ -50,20 +50,24 @@ public class ModelLinkServiceImpl implements ModelLinkService {
         }
     }
 
-    //todo try/catch
     @Override
-    public boolean fetchByClassNodeId(Long classNodeId) throws Throwable {
-        //todo get Object
-        //todo return nodeId
-            return jsonRpcHttpClient.invoke("fetchByClassNodeId", new Object[]{classNodeId}, Boolean.class);
+    public Long fetchByClassNodeId(Long classNodeId) throws Throwable {
+        try {
+            jsonRpcHttpClient.invoke("fetchByClassNodeId", new Object[]{classNodeId}, Object.class);
+            return classNodeId;
+        } catch (JsonRpcException exception) {
+            throw new JsonRpcException();
+        }
     }
 
-    //todo try/catch
     @Override
-    public boolean fetchByModelNodeId(Long modelNodeId) throws Throwable {
-        //todo get Object
-        //todo return nodeId
-            return jsonRpcHttpClient.invoke("fetchByModelNodeId", new Object[]{modelNodeId}, Boolean.class);
+    public Long fetchByModelNodeId(Long modelNodeId) throws Throwable {
+        try {
+            jsonRpcHttpClient.invoke("fetchByModelNodeId", new Object[]{modelNodeId}, Object.class);
+            return modelNodeId;
+        } catch (JsonRpcException exception) {
+            throw new JsonRpcException();
+        }
     }
 
     @Override
