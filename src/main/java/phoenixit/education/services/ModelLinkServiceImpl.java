@@ -8,6 +8,7 @@ import phoenixit.education.exceptions.JsonRpcException;
 import phoenixit.education.models.Model;
 import phoenixit.education.models.ModelLinkMessage;
 
+import java.lang.reflect.Field;
 import java.util.List;
 
 @Service
@@ -51,11 +52,23 @@ public class ModelLinkServiceImpl implements ModelLinkService {
     }
 
     @Override
-    public Long fetchByClassNodeId(Long classNodeId) throws Throwable {
+    public String fetchByClassNodeId(Long classNodeId) throws Throwable {
         try {
-            jsonRpcHttpClient.invoke("fetchByClassNodeId", new Object[]{classNodeId}, Object.class);
-            //todo get title field from Object
-            return classNodeId;
+            Object object = jsonRpcHttpClient.invoke("fetchByClassNodeId", new Object[]{classNodeId}, Object.class);
+            Class<?> cl = object.getClass();
+            Field[] fields = cl.getDeclaredFields();
+            String title = "";
+            for(Field field: fields){
+                String fieldName = field.getName();
+                if(!field.isAccessible()){
+                    field.setAccessible(true);
+                }
+                Object value = field.get(object);
+                if (value.toString().contains("title")) {
+                    title = value.toString().replace("title=", "");
+                }
+            }
+            return title;
         } catch (JsonRpcException exception) {
             throw new JsonRpcException();
         }

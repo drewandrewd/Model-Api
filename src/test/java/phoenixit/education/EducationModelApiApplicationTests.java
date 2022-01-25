@@ -85,10 +85,9 @@ class EducationModelApiApplicationTests {
 //        System.out.println(model.getName());
 //    }
 
-//    @Test void fetchByClassNodeIdTest() throws Throwable {
-//        boolean isTrue = modelLinkService.fetchByClassNodeId(84354L);
-//        System.out.println(isTrue);
-//    }
+    @Test void fetchByClassNodeIdTest() throws Throwable {
+        System.out.println(modelLinkService.fetchByClassNodeId(84354L));;
+    }
 
     @Test
     void fetchModelsByClassNodeIdTest() throws JsonRpcException {

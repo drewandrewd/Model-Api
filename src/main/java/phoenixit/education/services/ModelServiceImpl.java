@@ -13,10 +13,13 @@ import phoenixit.education.models.ModelType;
 import phoenixit.education.repositories.ModelCustomRepository;
 import phoenixit.education.repositories.ModelRepository;
 
+import java.security.Provider;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 @Slf4j
 @Service
@@ -95,22 +98,14 @@ public class ModelServiceImpl implements ModelService {
     @Override
     public List<ModelResponse> fetchAll(String field, Sort.Direction direction)  throws ModelNotFoundException {
         List<Model> modelList = modelCustomRepository.fetchAll(field, direction);
-        // todo use stream
-        List<ModelResponse> responseList = new ArrayList<>();
-        for (Model model : modelList) {
-            responseList.add(converter.modelToResponse(model));
-        }
+        List<ModelResponse> responseList = modelList.stream().map(x -> converter.modelToResponse(x)).collect(Collectors.toList());
         return responseList;
     }
 
     @Override
     public Page<ModelResponse> fetchAllWithPagination(String field, Sort.Direction direction, int pages, int size) {
         List<Model> modelList = modelCustomRepository.fetchAllWithPagination(field, direction, pages, size);
-        //todo use stream
-        List<ModelResponse> responseList = new ArrayList<>();
-        for (Model model : modelList) {
-            responseList.add(converter.modelToResponse(model));
-        }
+        List<ModelResponse> responseList = modelList.stream().map(x -> converter.modelToResponse(x)).collect(Collectors.toList());
         Page<ModelResponse> page = new PageImpl<>(responseList);
         return page;
     }

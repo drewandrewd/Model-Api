@@ -2,6 +2,7 @@ package phoenixit.education.jsonRPC;
 
 import com.googlecode.jsonrpc4j.spring.AutoJsonRpcServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import phoenixit.education.exceptions.JsonRpcException;
@@ -36,22 +37,22 @@ public class APIImpl implements API {
     }
 
     @Override
-    public void fetchAll(String field, Sort.Direction direction) throws ModelNotFoundException {
-        modelService.fetchAll(field, direction);
+    public List<ModelResponse> fetchAll(String field, Sort.Direction direction) throws ModelNotFoundException {
+        return modelService.fetchAll(field, direction);
     }
 
     @Override
-    public void fetchAllWithPagination(String field, Sort.Direction direction, int pages, int size) throws ModelNotFoundException {
-        modelService.fetchAllWithPagination(field, direction, pages, size);
+    public Page<ModelResponse> fetchAllWithPagination(String field, Sort.Direction direction, int pages, int size) throws ModelNotFoundException {
+        return modelService.fetchAllWithPagination(field, direction, pages, size);
     }
 
     @Override
-    public void fetchById(String id) throws ModelNotFoundException {
-        modelService.fetchById(id);
+    public ModelResponse fetchById(String id) throws ModelNotFoundException {
+       return modelService.fetchById(id);
     }
 
     @Override
-    public Long fetchByClassNodeId(Long classNodeId) throws Throwable {
+    public String fetchByClassNodeId(Long classNodeId) throws Throwable {
         return modelLinkService.fetchByClassNodeId(classNodeId);
     }
 

@@ -13,7 +13,7 @@ public interface ModelLinkService {
 
     void delete(Long modelNodeId) throws Throwable;
 
-    Long fetchByClassNodeId(Long classNodeId) throws Throwable;
+    String fetchByClassNodeId(Long classNodeId) throws Throwable;
 
     Long fetchByModelNodeId(Long modelNodeId) throws Throwable;
 
