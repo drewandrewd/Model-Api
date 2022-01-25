@@ -95,6 +95,7 @@ public class ModelServiceImpl implements ModelService {
     @Override
     public List<ModelResponse> fetchAll(String field, Sort.Direction direction)  throws ModelNotFoundException {
         List<Model> modelList = modelCustomRepository.fetchAll(field, direction);
+        // todo use stream
         List<ModelResponse> responseList = new ArrayList<>();
         for (Model model : modelList) {
             responseList.add(converter.modelToResponse(model));
@@ -105,6 +106,7 @@ public class ModelServiceImpl implements ModelService {
     @Override
     public Page<ModelResponse> fetchAllWithPagination(String field, Sort.Direction direction, int pages, int size) {
         List<Model> modelList = modelCustomRepository.fetchAllWithPagination(field, direction, pages, size);
+        //todo use stream
         List<ModelResponse> responseList = new ArrayList<>();
         for (Model model : modelList) {
             responseList.add(converter.modelToResponse(model));

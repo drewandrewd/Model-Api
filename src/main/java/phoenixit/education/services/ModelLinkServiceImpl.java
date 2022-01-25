@@ -54,6 +54,7 @@ public class ModelLinkServiceImpl implements ModelLinkService {
     public Long fetchByClassNodeId(Long classNodeId) throws Throwable {
         try {
             jsonRpcHttpClient.invoke("fetchByClassNodeId", new Object[]{classNodeId}, Object.class);
+            //todo get title field from Object
             return classNodeId;
         } catch (JsonRpcException exception) {
             throw new JsonRpcException();

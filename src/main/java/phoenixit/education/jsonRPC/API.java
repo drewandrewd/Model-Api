@@ -16,6 +16,7 @@ public interface API {
     ModelResponse create(@JsonRpcParam(value = "modelRequest") ModelRequest modelRequest) throws Throwable;
     ModelResponse update(@JsonRpcParam(value = "modelRequest") ModelRequest modelRequest) throws Throwable;
     ModelResponse delete(@JsonRpcParam(value = "id") String id) throws Throwable;
+    //todo return not void result
     void fetchAll(@JsonRpcParam(value = "field") String field, @JsonRpcParam(value = "direction") Sort.Direction direction) throws ModelNotFoundException;
     void fetchAllWithPagination(@JsonRpcParam(value = "field") String field, @JsonRpcParam(value = "direction") Sort.Direction direction, @JsonRpcParam(value = "pages") int pages, @JsonRpcParam(value = "size") int size) throws ModelNotFoundException;
     void fetchById(@JsonRpcParam(value = "id") String id) throws ModelNotFoundException;

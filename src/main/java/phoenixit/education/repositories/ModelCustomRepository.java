@@ -10,5 +10,6 @@ import java.util.List;
 public interface ModelCustomRepository {
 
     List<Model> fetchAll(String field, Sort.Direction direction);
+    //todo return Page<Model>
     List<Model> fetchAllWithPagination(String field, Sort.Direction direction, int pages, int size);
 }
