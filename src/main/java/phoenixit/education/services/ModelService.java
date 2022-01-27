@@ -1,5 +1,6 @@
 package phoenixit.education.services;
 
+import org.bson.Document;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Sort;
 import phoenixit.education.exceptions.ModelNotFoundException;
@@ -25,4 +26,8 @@ public interface ModelService {
     Page<ModelResponse> fetchAllWithPagination(String field, Sort.Direction direction, int pages, int size);
 
     ModelResponse fetchById(String id) throws ModelNotFoundException;
+
+    Document createDoc(String id) throws ModelNotFoundException;
+
+    ModelResponse create(Document document) throws Throwable;
 }

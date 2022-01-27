@@ -1,6 +1,11 @@
 package phoenixit.education.services;
 
+import com.mongodb.ConnectionString;
+import com.mongodb.client.MongoClient;
+import com.mongodb.client.MongoCollection;
+import com.mongodb.client.MongoDatabase;
 import lombok.extern.slf4j.Slf4j;
+import org.bson.Document;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.*;
 import org.springframework.stereotype.Service;
@@ -118,6 +123,22 @@ public class ModelServiceImpl implements ModelService {
         } else {
             throw new ModelNotFoundException();
         }
+    }
+
+    @Override
+    public Document createDoc(String id) throws ModelNotFoundException {
+        ModelResponse modelResponse = fetchById(id);
+        return converter.ResponseToDocument(modelResponse);
+    }
+
+    @Override
+    public ModelResponse create(Document document) throws Throwable {
+        Model model = converter.documentToModel(document);
+        model.setCreateAt(new Date());
+        model.setCreator("admin");
+        Long modelNodeId = modelLinkService.create(model.getName(), (Long) document.get("classNodeId"));
+        model.setNodeId(modelNodeId);
+        return converter.modelToResponse(modelRepository.save(model));
     }
 
     @Autowired

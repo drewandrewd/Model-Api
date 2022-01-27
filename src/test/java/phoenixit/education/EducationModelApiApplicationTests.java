@@ -1,6 +1,7 @@
 package phoenixit.education;
 
 import lombok.extern.slf4j.Slf4j;
+import org.bson.Document;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.core.AutoConfigureCache;
@@ -9,6 +10,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
+import phoenixit.education.components.Converter;
 import phoenixit.education.exceptions.JsonRpcException;
 import phoenixit.education.exceptions.ModelNotFoundException;
 import phoenixit.education.models.Model;
@@ -30,6 +32,7 @@ class EducationModelApiApplicationTests {
     private ModelService modelService;
     private ModelRepository repository;
     private ModelLinkService modelLinkService;
+    private Converter converter;
 
     @Test
     void contextLoads() {
@@ -95,6 +98,12 @@ class EducationModelApiApplicationTests {
         System.out.println(list);
     }
 
+    @Test
+    void createDocTest() throws ModelNotFoundException {
+        Document document = modelService.createDoc("61e05b1cf1d16059e3f4368c");
+        System.out.println(converter.documentToModel(document));
+    }
+
     @Autowired
     public void setModelService(ModelService modelService) {
         this.modelService = modelService;
@@ -108,5 +117,10 @@ class EducationModelApiApplicationTests {
     @Autowired
     public void setModelLinkService(ModelLinkService modelLinkService) {
         this.modelLinkService = modelLinkService;
+    }
+
+    @Autowired
+    public void setConverter(Converter converter) {
+        this.converter = converter;
     }
 }
