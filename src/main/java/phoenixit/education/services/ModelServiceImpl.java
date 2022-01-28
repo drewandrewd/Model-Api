@@ -110,8 +110,7 @@ public class ModelServiceImpl implements ModelService {
     @Override
     public Page<ModelResponse> fetchAllWithPagination(String field, Sort.Direction direction, int pages, int size) {
         Page<Model> modelList = modelCustomRepository.fetchAllWithPagination(field, direction, pages, size);
-        List<ModelResponse> responseList = modelList.stream().map(x -> converter.modelToResponse(x)).collect(Collectors.toList());
-        Page<ModelResponse> page = new PageImpl<>(responseList);
+        Page<ModelResponse> page = new PageImpl<>(modelList.stream().map(x -> converter.modelToResponse(x)).collect(Collectors.toList()));
         return page;
     }
 
