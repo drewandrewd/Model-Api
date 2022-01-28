@@ -80,7 +80,7 @@ class EducationModelApiApplicationTests {
     @Test
     void fetchAllWithPaginationTest() {
         Page<ModelResponse> listOfModels = modelService.fetchAllWithPagination("name", DESC, 1, 5);
-        System.out.println(listOfModels);
+        System.out.println(listOfModels.getContent());
     }
 
 //    @Test void fetchByIdTest() {
